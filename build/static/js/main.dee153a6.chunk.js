@@ -1,2 +1,0 @@
-(this.webpackJsonpquizwiz=this.webpackJsonpquizwiz||[]).push([[0],{9:function(e,t,i){"use strict";i.r(t);var n=i(1),c=i.n(n),s=i(3),r=i.n(s),d=i(0),j=function(){return Object(d.jsx)("div",{children:"Question Card Goes Here"})},u=function(){return Object(d.jsxs)("div",{className:"App",children:["Quiz Goes Here",Object(d.jsx)("div",{children:Object(d.jsx)(j,{})})]})};r.a.render(Object(d.jsx)(c.a.StrictMode,{children:Object(d.jsx)(u,{})}),document.getElementById("App"))}},[[9,1,2]]]);
-//# sourceMappingURL=main.dee153a6.chunk.js.map
