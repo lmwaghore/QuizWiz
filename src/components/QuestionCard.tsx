@@ -1,4 +1,5 @@
 import React from 'react';
+import { AnswerObject } from '../App';
 
 //define prop types for use
 type Props = {
@@ -6,7 +7,7 @@ type Props = {
   questionNumber: number;
   question: string;
   answers: string[];
-  playerAnswer: any;
+  playerAnswer: AnswerObject | undefined;
   callback: any;
 }
 const QuestionCard: React.FC<Props> = ({totalQuestions, questionNumber, question, answers, playerAnswer, callback}) => {
@@ -18,7 +19,7 @@ const QuestionCard: React.FC<Props> = ({totalQuestions, questionNumber, question
     <div>
       {answers.map(answer => (
         <div key={answer}>
-          <button disabled={playerAnswer} onClick={callback} value={answer}>
+          <button disabled={!!playerAnswer} onClick={callback} value={answer}>
             <span dangerouslySetInnerHTML={{__html: answer}}/>
           </button>
         </div>
