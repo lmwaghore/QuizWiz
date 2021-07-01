@@ -18,15 +18,15 @@ const App = () => {
   const [questionNumber, setQuestionNumber] = useState(1);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
+  const [totalQuestions, setTotalQuestions] = useState(10);
 
   const triviaStarter = async () => {
     //loading the api fetch
     setLoading(true);
     //reset game state
     setGameOver(false);
-
     const newGame = await questionFetcher(
-      TOTAL_QUESTIONS,
+      Number(totalQuestions),
       Difficulty.EASY
     );
     setQuestions(newGame);
@@ -62,22 +62,36 @@ const App = () => {
     }
   }
 
-  console.log({questions});
+  const totalQuestionSetter = (e: any) => {
+    if (!isNaN(Number(e.target.value))) {
+      setTotalQuestions(e.target.value);
+    } else {
+      alert('Please only input numbers!')
+      e.target.value = '';
+    }
+  }
 
   return (
     <div className="App">
       <h1>QUIZWIZ</h1>
       {
         (gameOver || playerAnswers.length === TOTAL_QUESTIONS) &&
-         (<button className="start" onClick={triviaStarter}>
-          Start
-        </button>)
+         (<div>
+          <button className="start" onClick={triviaStarter}>
+            Start
+          </button>
+          <input type="text" id="totalQuestion" placeholder="how many questions" defaultValue="" onChange={totalQuestionSetter}></input>
+          <button value="easy">EASY</button>
+          <button value="medium">MEDIUM</button>
+          <button value="hard">HARD</button>
+          </div>
+          )
       }
       {!gameOver && <p className="score">Your Score: {score}</p>}
       {loading && (<p className="Loading">Loading Questions . . .</p>)}
-      {!loading && !gameOver && playerAnswers.length !== TOTAL_QUESTIONS && <QuestionCard
+      {!loading && !gameOver && TOTAL_QUESTIONS && <QuestionCard
         questionNumber={questionNumber}
-        totalQuestions={TOTAL_QUESTIONS}
+        totalQuestions={totalQuestions}
         question={questions[questionNumber - 1].question}
         answers={questions[questionNumber - 1].answers}
         playerAnswer={playerAnswers ? playerAnswers[questionNumber - 1] : undefined }

@@ -11,7 +11,6 @@ type Props = {
   callback: any;
 }
 const QuestionCard: React.FC<Props> = ({totalQuestions, questionNumber, question, answers, playerAnswer, callback}) => {
-  console.log({playerAnswer});
   return (
   <div>
     <em className="number">Question {questionNumber} of {totalQuestions}</em>
