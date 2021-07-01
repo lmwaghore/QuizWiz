@@ -10,6 +10,7 @@ type Props = {
   callback: any;
 }
 const QuestionCard: React.FC<Props> = ({totalQuestions, questionNumber, question, answers, playerAnswer, callback}) => {
+  console.log({playerAnswer});
   return (
   <div>
     <em className="number">Question {questionNumber} of {totalQuestions}</em>
@@ -17,7 +18,7 @@ const QuestionCard: React.FC<Props> = ({totalQuestions, questionNumber, question
     <div>
       {answers.map(answer => (
         <div key={answer}>
-          <button disabled={playerAnswer} onClick={callback}>
+          <button disabled={playerAnswer} onClick={callback} value={answer}>
             <span dangerouslySetInnerHTML={{__html: answer}}/>
           </button>
         </div>

@@ -38,14 +38,31 @@ const App = () => {
 
 
   const answerchecker = (e: React.MouseEvent<HTMLButtonElement>) => {
-
+    if (!gameOver) {
+      const playerChoice = e.currentTarget.value;
+      const isCorrect = questions[questionNumber - 1].correct_answer === playerChoice;
+      if (isCorrect) setScore(prev => prev + 1);
+      const answerObject = {
+        question: questions[questionNumber - 1].question,
+        playerAnswer: playerChoice,
+        isCorrect,
+        correctAnswer: questions[questionNumber - 1].correct_answer,
+      };
+      setPlayerAnswers((prev) => [...prev, answerObject]);
+    }
   }
 
   const nextQuestion = () => {
-
+    //next question in array is equal to current number
+    const nextQuestion = questionNumber;
+    if (nextQuestion === TOTAL_QUESTIONS) {
+      setGameOver(true);
+    } else {
+      setQuestionNumber(nextQuestion + 1);
+    }
   }
 
-  console.log(questions);
+  console.log({questions});
 
   return (
     <div className="App">
@@ -56,14 +73,14 @@ const App = () => {
           Start
         </button>)
       }
-      {!gameOver && <p className="score">Your Score:</p>}
+      {!gameOver && <p className="score">Your Score: {score}</p>}
       {loading && (<p className="Loading">Loading Questions . . .</p>)}
-      {!loading && !gameOver && <QuestionCard
-        questionNumber={questionNumber + 1}
+      {!loading && !gameOver && playerAnswers.length !== TOTAL_QUESTIONS && <QuestionCard
+        questionNumber={questionNumber}
         totalQuestions={TOTAL_QUESTIONS}
-        question={questions[questionNumber].question}
-        answers={questions[questionNumber].answers}
-        playerAnswer={playerAnswers ? playerAnswers[questionNumber] : undefined }
+        question={questions[questionNumber - 1].question}
+        answers={questions[questionNumber - 1].answers}
+        playerAnswer={playerAnswers ? playerAnswers[questionNumber - 1] : undefined }
         callback={answerchecker}
       /> }
       { !loading &&
