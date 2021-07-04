@@ -67,7 +67,7 @@ const App = () => {
       setTotalQuestions(e.target.value);
     } else {
       alert('Please only input numbers!')
-      e.target.value = '';
+      e.target.value = e.target.value.slice(0,-1);
     }
   }
 
