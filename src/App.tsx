@@ -83,10 +83,7 @@ const App = () => {
 			<Wrapper>
 				<h1>QUIZWIZ</h1>
 				{(gameOver || playerAnswers.length === TOTAL_QUESTIONS) && (
-					<div>
-						<button className="start" onClick={triviaStarter}>
-							Start
-						</button>
+					<div className="specSelector">
 						<input
 							type="text"
 							id="totalQuestion"
@@ -103,6 +100,10 @@ const App = () => {
 							<option value="medium">MEDIUM</option>
 							<option value="hard">HARD</option>
 						</select>
+            <button className="start" onClick=
+            {triviaStarter}>
+            	Start
+            </button>
 					</div>
 				)}
 				{!gameOver && <p className="score">Your Score: {score}</p>}
