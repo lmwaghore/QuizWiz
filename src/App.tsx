@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { questionFetcher, QuestionState } from './Fetcher';
 import QuestionCard from './components/QuestionCard';
+import { GlobalStyle, Wrapper } from './App.styles';
 
 const TOTAL_QUESTIONS = 10;
 
@@ -77,50 +78,57 @@ const App = () => {
   };
 
   return (
-		<div className="App">
-			<h1>QUIZWIZ</h1>
-			{(gameOver || playerAnswers.length === TOTAL_QUESTIONS) && (
-				<div>
-					<button className="start" onClick={triviaStarter}>
-						Start
-					</button>
-					<input
-						type="text"
-						id="totalQuestion"
-						placeholder="how many questions"
-						defaultValue=""
-						onChange={totalQuestionSetter}
-					></input>
-					<select name="difficulty" id="difficulty" onChange={difficultySetter}>
-						<option value="easy">EASY</option>
-						<option value="medium">MEDIUM</option>
-						<option value="hard">HARD</option>
-					</select>
-				</div>
-			)}
-			{!gameOver && <p className="score">Your Score: {score}</p>}
-			{loading && <p className="Loading">Loading Questions . . .</p>}
-			{!loading && !gameOver && TOTAL_QUESTIONS && (
-				<QuestionCard
-					questionNumber={questionNumber}
-					totalQuestions={totalQuestions}
-					question={questions[questionNumber - 1].question}
-					answers={questions[questionNumber - 1].answers}
-					playerAnswer={
-						playerAnswers ? playerAnswers[questionNumber - 1] : undefined
-					}
-					callback={answerchecker}
-				/>
-			)}
-			{!loading &&
-				!gameOver &&
-				playerAnswers.length === questionNumber &&
-				questionNumber !== TOTAL_QUESTIONS && (
-					<button className="next" onClick={nextQuestion}>
-						Next Question
-					</button>
+		<>
+			<GlobalStyle />
+			<Wrapper>
+				<h1>QUIZWIZ</h1>
+				{(gameOver || playerAnswers.length === TOTAL_QUESTIONS) && (
+					<div>
+						<button className="start" onClick={triviaStarter}>
+							Start
+						</button>
+						<input
+							type="text"
+							id="totalQuestion"
+							placeholder="how many questions"
+							defaultValue=""
+							onChange={totalQuestionSetter}
+						></input>
+						<select
+							name="difficulty"
+							id="difficulty"
+							onChange={difficultySetter}
+						>
+							<option value="easy">EASY</option>
+							<option value="medium">MEDIUM</option>
+							<option value="hard">HARD</option>
+						</select>
+					</div>
 				)}
-		</div>
+				{!gameOver && <p className="score">Your Score: {score}</p>}
+				{loading && <p className="Loading">Loading Questions . . .</p>}
+				{!loading && !gameOver && TOTAL_QUESTIONS && (
+					<QuestionCard
+						questionNumber={questionNumber}
+						totalQuestions={totalQuestions}
+						question={questions[questionNumber - 1].question}
+						answers={questions[questionNumber - 1].answers}
+						playerAnswer={
+							playerAnswers ? playerAnswers[questionNumber - 1] : undefined
+						}
+						callback={answerchecker}
+					/>
+				)}
+				{!loading &&
+					!gameOver &&
+					playerAnswers.length === questionNumber &&
+					questionNumber !== TOTAL_QUESTIONS && (
+						<button className="next" onClick={nextQuestion}>
+							Next Question
+						</button>
+					)}
+			</Wrapper>
+		</>
 	);
 }
 
