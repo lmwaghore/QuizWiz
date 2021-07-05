@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { questionFetcher, Difficulty, QuestionState } from './Fetcher';
+import { questionFetcher, QuestionState } from './Fetcher';
 import QuestionCard from './components/QuestionCard';
 
 const TOTAL_QUESTIONS = 10;
@@ -19,6 +19,7 @@ const App = () => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
   const [totalQuestions, setTotalQuestions] = useState(10);
+  const [difficulty, setDifficulty] = useState<string>('easy');
 
   const triviaStarter = async () => {
     //loading the api fetch
@@ -27,14 +28,14 @@ const App = () => {
     setGameOver(false);
     const newGame = await questionFetcher(
       Number(totalQuestions),
-      Difficulty.EASY
+      difficulty
     );
     setQuestions(newGame);
     setScore(0);
     setPlayerAnswers([]);
     setQuestionNumber(1);
     setLoading(false);
-  }
+  };
 
 
   const answerchecker = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -50,7 +51,7 @@ const App = () => {
       };
       setPlayerAnswers((prev) => [...prev, answerObject]);
     }
-  }
+  };
 
   const nextQuestion = () => {
     //next question in array is equal to current number
@@ -60,7 +61,7 @@ const App = () => {
     } else {
       setQuestionNumber(nextQuestion + 1);
     }
-  }
+  };
 
   const totalQuestionSetter = (e: any) => {
     if (!isNaN(Number(e.target.value))) {
@@ -69,43 +70,58 @@ const App = () => {
       alert('Please only input numbers!')
       e.target.value = e.target.value.slice(0,-1);
     }
-  }
+  };
+
+  const difficultySetter = (e: any) => {
+    setDifficulty(e.target.value);
+  };
 
   return (
-    <div className="App">
-      <h1>QUIZWIZ</h1>
-      {
-        (gameOver || playerAnswers.length === TOTAL_QUESTIONS) &&
-         (<div>
-          <button className="start" onClick={triviaStarter}>
-            Start
-          </button>
-          <input type="text" id="totalQuestion" placeholder="how many questions" defaultValue="" onChange={totalQuestionSetter}></input>
-          <button value="easy">EASY</button>
-          <button value="medium">MEDIUM</button>
-          <button value="hard">HARD</button>
-          </div>
-          )
-      }
-      {!gameOver && <p className="score">Your Score: {score}</p>}
-      {loading && (<p className="Loading">Loading Questions . . .</p>)}
-      {!loading && !gameOver && TOTAL_QUESTIONS && <QuestionCard
-        questionNumber={questionNumber}
-        totalQuestions={totalQuestions}
-        question={questions[questionNumber - 1].question}
-        answers={questions[questionNumber - 1].answers}
-        playerAnswer={playerAnswers ? playerAnswers[questionNumber - 1] : undefined }
-        callback={answerchecker}
-      /> }
-      { !loading &&
-        !gameOver &&
-        (playerAnswers.length === questionNumber) &&
-        (questionNumber !== TOTAL_QUESTIONS) &&
-        <button className="next" onClick={nextQuestion}>
-        Next Question
-      </button>}
-    </div>
-  );
+		<div className="App">
+			<h1>QUIZWIZ</h1>
+			{(gameOver || playerAnswers.length === TOTAL_QUESTIONS) && (
+				<div>
+					<button className="start" onClick={triviaStarter}>
+						Start
+					</button>
+					<input
+						type="text"
+						id="totalQuestion"
+						placeholder="how many questions"
+						defaultValue=""
+						onChange={totalQuestionSetter}
+					></input>
+					<select name="difficulty" id="difficulty" onChange={difficultySetter}>
+						<option value="easy">EASY</option>
+						<option value="medium">MEDIUM</option>
+						<option value="hard">HARD</option>
+					</select>
+				</div>
+			)}
+			{!gameOver && <p className="score">Your Score: {score}</p>}
+			{loading && <p className="Loading">Loading Questions . . .</p>}
+			{!loading && !gameOver && TOTAL_QUESTIONS && (
+				<QuestionCard
+					questionNumber={questionNumber}
+					totalQuestions={totalQuestions}
+					question={questions[questionNumber - 1].question}
+					answers={questions[questionNumber - 1].answers}
+					playerAnswer={
+						playerAnswers ? playerAnswers[questionNumber - 1] : undefined
+					}
+					callback={answerchecker}
+				/>
+			)}
+			{!loading &&
+				!gameOver &&
+				playerAnswers.length === questionNumber &&
+				questionNumber !== TOTAL_QUESTIONS && (
+					<button className="next" onClick={nextQuestion}>
+						Next Question
+					</button>
+				)}
+		</div>
+	);
 }
 
 export default App;
