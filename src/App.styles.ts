@@ -66,10 +66,15 @@ export const Wrapper = styled.div`
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     height: 40px;
-    padding 0 5%;
+    padding: 0 5%;
+    margin: 5%;
   }
 
   .start{
     max-width: 200px;
   }
+
+
+
+
 `
